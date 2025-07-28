@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Enable static export for Netlify
+  output: 'export',
+  trailingSlash: true,
   // Optimize for large media files
   experimental: {
     optimizePackageImports: ['lucide-react'],
@@ -9,20 +12,7 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
-  },
-  // Handle large static files
-  async headers() {
-    return [
-      {
-        source: '/public/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
+    unoptimized: true,
   },
   // Increase build timeout for large files
   webpack: (config, { isServer }) => {
